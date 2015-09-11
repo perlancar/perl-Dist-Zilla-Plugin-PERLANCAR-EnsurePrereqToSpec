@@ -11,12 +11,14 @@ use Moose;
 use namespace::autoclean;
 
 with (
-    'Dist::Zilla::Role::MetaProvider',
+    'Dist::Zilla::Role::InstallTool',
     'Dist::Zilla::Role::Rinci::CheckDefinesMeta',
 );
 
 sub _prereq_check {
     my ($self, $prereqs_hash, $mod, $wanted_phase, $wanted_rel) = @_;
+
+    #use DD; dd $prereqs_hash;
 
     my $num_any = 0;
     my $num_wanted = 0;
@@ -49,8 +51,9 @@ sub _prereq_none {
     $num_any == 0;
 }
 
-# actually we use MetaProvider just to be after all the PrereqSources plugins
-sub metadata {
+# actually we use InstallTool phase just so we are run after all the
+# PrereqSources plugins
+sub setup_installer {
     my $self = shift;
 
     my $prereqs_hash = $self->zilla->prereqs->as_string_hash;
