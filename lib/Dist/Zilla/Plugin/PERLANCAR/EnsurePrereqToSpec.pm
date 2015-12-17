@@ -59,8 +59,8 @@ sub setup_installer {
     my $prereqs_hash = $self->zilla->prereqs->as_string_hash;
 
     # Rinci
-    if ($self->check_dist_defines_rinci_meta) {
-        $self->log_fatal(["Dist defines Rinci metadata, but there is no DevelopRecommends prereq to Rinci"])
+    if ($self->check_dist_defines_rinci_meta || -f ".tag-implements-Rinci") {
+        $self->log_fatal(["Dist defines Rinci metadata or implements Rinci, but there is no DevelopRecommends prereq to Rinci"])
             unless $self->_prereq_only_in($prereqs_hash, "Rinci", "develop", "recommends");
     } else {
         $self->log_fatal(["Dist does not define Rinci metadata, but there is a prereq to Rinci"])
