@@ -1,5 +1,11 @@
 Revision history for Dist-Zilla-Plugin-PERLANCAR-EnsurePrereqToSpec
 
+0.04    2016-12-28 (PERLANCAR)
+
+	- Update check: spec relationship is now expressed using
+	  rel=x_spec.
+
+
 0.03    2016-12-27 (PERLANCAR)
 
 	- Update check: spec relationship is now expressed in
