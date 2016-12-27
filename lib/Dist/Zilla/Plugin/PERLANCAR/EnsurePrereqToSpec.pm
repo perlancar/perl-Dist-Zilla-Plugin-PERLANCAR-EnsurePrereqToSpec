@@ -60,11 +60,12 @@ sub setup_installer {
 
     # Rinci
     if ($self->check_dist_defines_rinci_meta || -f ".tag-implements-Rinci") {
-        $self->log_fatal(["Dist defines Rinci metadata or implements Rinci, but there is no DevelopRecommends prereq to Rinci"])
-            unless $self->_prereq_only_in($prereqs_hash, "Rinci", "develop", "recommends");
+        $self->log_fatal(["Dist defines Rinci metadata or implements Rinci, but there is no DevelopSuggests prereq to _SPEC::Rinci"])
+            unless $self->_prereq_only_in($prereqs_hash, "_SPEC::Rinci", "develop", "suggests");
     } else {
-        $self->log_fatal(["Dist does not define Rinci metadata, but there is a prereq to Rinci"])
-            unless $self->_prereq_none($prereqs_hash, "Rinci");
+        $self->log_fatal(["Dist does not define Rinci metadata, but there is a prereq to Rinci or _SPEC::Rinci"])
+            unless $self->_prereq_none($prereqs_hash, "Rinci") &&
+                $self->_prereq_none($prereqs_hash, "_SPEC::Rinci");
     }
 }
 
