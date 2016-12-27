@@ -1,5 +1,11 @@
 Revision history for Dist-Zilla-Plugin-PERLANCAR-EnsurePrereqToSpec
 
+0.03    2016-12-27 (PERLANCAR)
+
+	- Update check: spec relationship is now expressed in
+	  DevelopSuggests using _SPEC:: prefix.
+
+
 0.02    2015-12-17 (PERLANCAR)
 
 	- Allow building of dists like Perinci-Access-Lite or
