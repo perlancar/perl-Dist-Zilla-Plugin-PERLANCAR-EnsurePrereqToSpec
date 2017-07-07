@@ -11,7 +11,7 @@ use Moose;
 use namespace::autoclean;
 
 with (
-    'Dist::Zilla::Role::InstallTool',
+    'Dist::Zilla::Role::AfterBuild',
     'Dist::Zilla::Role::Rinci::CheckDefinesMeta',
 );
 
@@ -51,9 +51,7 @@ sub _prereq_none {
     $num_any == 0;
 }
 
-# actually we use InstallTool phase just so we are run after all the
-# PrereqSources plugins
-sub setup_installer {
+sub after_build {
     my $self = shift;
 
     my $prereqs_hash = $self->zilla->prereqs->as_string_hash;
