@@ -42,6 +42,15 @@ sub _prereq_only_in {
     $num_wanted == 1 && $num_any == 1;
 }
 
+sub _has_prereq {
+    my ($self, $prereqs_hash, $mod, $wanted_phase, $wanted_rel) = @_;
+
+    my ($num_any, $num_wanted) = $self->_prereq_check(
+        $prereqs_hash, $mod, $wanted_phase, $wanted_rel,
+    );
+    $num_wanted == 1;
+}
+
 sub _prereq_none {
     my ($self, $prereqs_hash, $mod) = @_;
 
@@ -61,8 +70,8 @@ sub after_build {
         $self->log_fatal(["Dist defines Rinci metadata or implements Rinci, but there is no prereq phase=develop rel=x_spec to Rinci"])
             unless $self->_prereq_only_in($prereqs_hash, "Rinci", "develop", "x_spec");
     } else {
-        $self->log_fatal(["Dist does not define Rinci metadata, but there is a prereq to Rinci"])
-            unless $self->_prereq_none($prereqs_hash, "Rinci");
+        $self->log_fatal(["Dist does not define Rinci metadata, but there is a phase=develop rel=xpec prereq to Rinci"])
+            if $self->_has_prereq($prereqs_hash, "Rinci", "develop", "x_spec");
     }
 }
 
