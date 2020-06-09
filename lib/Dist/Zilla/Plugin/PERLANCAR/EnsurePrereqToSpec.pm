@@ -1,6 +1,8 @@
 package Dist::Zilla::Plugin::PERLANCAR::EnsurePrereqToSpec;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 use 5.010001;
@@ -13,6 +15,9 @@ use namespace::autoclean;
 with (
     'Dist::Zilla::Role::AfterBuild',
     'Dist::Zilla::Role::Rinci::CheckDefinesMeta',
+    'Dist::Zilla::Role::FileFinderUser' => {
+        default_finders => [':InstallModules'],
+    },
 );
 
 sub _prereq_check {
@@ -73,6 +78,13 @@ sub after_build {
         $self->log_fatal(["Dist does not define Rinci metadata, but there is a phase=develop rel=xpec prereq to Rinci"])
             if $self->_has_prereq($prereqs_hash, "Rinci", "develop", "x_spec");
     }
+
+    # ColorTheme
+    if (grep { $_->name =~ m!(?:\A|/)ColorTheme/.+\.pm! } @{ $self->found_files }) {
+        $self->log_fatal(["Dist has ColorThemes/* .pm file but there is no prereq phase=develop, rel=x_spec to ColorTheme"])
+            unless $self->_prereq_only_in($prereqs_hash, "ColorTheme", "develop", "x_spec");
+    }
+
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -91,7 +103,19 @@ In C<dist.ini>:
 =head1 DESCRIPTION
 
 I like to specify prerequisite to spec modules such as L<Rinci>, L<Riap>,
-L<Sah>, L<Setup>, etc as DevelopRecommends, to express that a distribution
-conforms to such specification(s).
+L<Sah>, L<Setup>, etc as (phase=develop, rel=x_spec) dependency, to express that
+a distribution conforms to such specification(s).
 
-Currently only L<Rinci> is checked.
+Currently only these spec is checked:
+
+=over
+
+=item * L<Rinci>
+
+When a package contains Rinci metadata (C<%SPEC>).
+
+=item * L<ColorTheme>
+
+When there is a ColorTheme/* source files.
+
+=back
