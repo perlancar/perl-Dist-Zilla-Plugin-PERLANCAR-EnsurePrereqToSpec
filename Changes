@@ -1,3 +1,8 @@
+0.061   2020-06-09  Released-By: PERLANCAR; Urgency: medium
+
+	- Add ColorTheme.
+
+
 0.060   2018-09-22  Released-By: PERLANCAR
 
 	- [Bugfix] Fix checking of negative condition.
