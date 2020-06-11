@@ -81,14 +81,20 @@ sub after_build {
 
     # ColorTheme
     if (grep { $_->name =~ m!(?:\A|/)ColorTheme/.+\.pm! } @{ $self->found_files }) {
-        $self->log_fatal(["Dist has ColorThemes/* .pm file but there is no prereq phase=develop, rel=x_spec to ColorTheme"])
+        $self->log_fatal(["Dist has ColorTheme/* .pm file but there is no prereq phase=develop, rel=x_spec to ColorTheme"])
             unless $self->_prereq_only_in($prereqs_hash, "ColorTheme", "develop", "x_spec");
+    } else {
+        $self->log_fatal(["Dist does not have ColorTheme/* .pm file, but there is a phase=develop rel=xpec prereq to ColorTheme"])
+            if $self->_has_prereq($prereqs_hash, "ColorTheme", "develop", "x_spec");
     }
 
     # BorderStyle
     if (grep { $_->name =~ m!(?:\A|/)BorderStyle/.+\.pm! } @{ $self->found_files }) {
         $self->log_fatal(["Dist has BorderStyle/* .pm file but there is no prereq phase=develop, rel=x_spec to BorderStyle"])
             unless $self->_prereq_only_in($prereqs_hash, "BorderStyle", "develop", "x_spec");
+    } else {
+        $self->log_fatal(["Dist does not have BorderStyle/* .pm file, but there is a phase=develop rel=xpec prereq to BorderStyle"])
+            if $self->_has_prereq($prereqs_hash, "BorderStyle", "develop", "x_spec");
     }
 
 }
