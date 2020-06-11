@@ -85,6 +85,12 @@ sub after_build {
             unless $self->_prereq_only_in($prereqs_hash, "ColorTheme", "develop", "x_spec");
     }
 
+    # BorderStyle
+    if (grep { $_->name =~ m!(?:\A|/)BorderStyle/.+\.pm! } @{ $self->found_files }) {
+        $self->log_fatal(["Dist has BorderStyle/* .pm file but there is no prereq phase=develop, rel=x_spec to BorderStyle"])
+            unless $self->_prereq_only_in($prereqs_hash, "BorderStyle", "develop", "x_spec");
+    }
+
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -117,5 +123,9 @@ When a package contains Rinci metadata (C<%SPEC>).
 =item * L<ColorTheme>
 
 When there is a ColorTheme/* source files.
+
+=item * L<BorderStyle>
+
+When there is a BorderStyle/* source files.
 
 =back
