@@ -1,16 +1,16 @@
 package Dist::Zilla::Plugin::PERLANCAR::EnsurePrereqToSpec;
 
-# AUTHORITY
-# DATE
-# DIST
-# VERSION
-
 use 5.010001;
 use strict;
 use warnings;
 
 use Moose;
 use namespace::autoclean;
+
+# AUTHORITY
+# DATE
+# DIST
+# VERSION
 
 with (
     'Dist::Zilla::Role::AfterBuild',
@@ -93,8 +93,8 @@ sub after_build {
         $self->log_fatal(["Dist has BorderStyle/* .pm file but there is no prereq phase=develop, rel=x_spec to BorderStyle"])
             unless $self->_prereq_only_in($prereqs_hash, "BorderStyle", "develop", "x_spec");
     } else {
-        $self->log_fatal(["Dist does not have BorderStyle/* .pm file, but there is a phase=develop rel=xpec prereq to BorderStyle"])
-            if $self->_has_prereq($prereqs_hash, "BorderStyle", "develop", "x_spec");
+        #$self->log_fatal(["Dist does not have BorderStyle/* .pm file, but there is a phase=develop rel=xpec prereq to BorderStyle"])
+        #    if $self->_has_prereq($prereqs_hash, "BorderStyle", "develop", "x_spec");
     }
 
 }
